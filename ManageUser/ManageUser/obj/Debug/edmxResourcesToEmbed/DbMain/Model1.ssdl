@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ManageUserModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="group">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="group_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Descipt" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="group_right">
+    <Key>
+      <PropertyRef Name="group_id" />
+      <PropertyRef Name="right_id" />
+    </Key>
+    <Property Name="group_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="right_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="password">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="user_id" Type="nvarchar" MaxLength="50" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" />
+    <Property Name="status" Type="nchar" MaxLength="1" />
+    <Property Name="InsertYMD" Type="datetime" />
+  </EntityType>
+  <EntityType Name="right">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="right_name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="username" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="user_right">
+    <Key>
+      <PropertyRef Name="user_id" />
+      <PropertyRef Name="right_id" />
+    </Key>
+    <Property Name="user_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="right_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_group_right_group">
+    <End Role="group" Type="Self.group" Multiplicity="1" />
+    <End Role="group_right" Type="Self.group_right" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="group">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="group_right">
+        <PropertyRef Name="group_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_group_right_right">
+    <End Role="right" Type="Self.right" Multiplicity="1" />
+    <End Role="group_right" Type="Self.group_right" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="right">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="group_right">
+        <PropertyRef Name="right_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_group_right_right1">
+    <End Role="right" Type="Self.right" Multiplicity="1" />
+    <End Role="group_right" Type="Self.group_right" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="right">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="group_right">
+        <PropertyRef Name="right_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_password_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="password" Type="Self.password" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="password">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_right_right">
+    <End Role="right" Type="Self.right" Multiplicity="1" />
+    <End Role="user_right" Type="Self.user_right" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="right">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="user_right">
+        <PropertyRef Name="right_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_right_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="user_right" Type="Self.user_right" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="user_right">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ManageUserModelStoreContainer">
+    <EntitySet Name="group" EntityType="Self.group" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="group_right" EntityType="Self.group_right" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="password" EntityType="Self.password" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="right" EntityType="Self.right" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user_right" EntityType="Self.user_right" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_group_right_group" Association="Self.FK_group_right_group">
+      <End Role="group" EntitySet="group" />
+      <End Role="group_right" EntitySet="group_right" />
+    </AssociationSet>
+    <AssociationSet Name="FK_group_right_right" Association="Self.FK_group_right_right">
+      <End Role="right" EntitySet="right" />
+      <End Role="group_right" EntitySet="group_right" />
+    </AssociationSet>
+    <AssociationSet Name="FK_group_right_right1" Association="Self.FK_group_right_right1">
+      <End Role="right" EntitySet="right" />
+      <End Role="group_right" EntitySet="group_right" />
+    </AssociationSet>
+    <AssociationSet Name="FK_password_User" Association="Self.FK_password_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="password" EntitySet="password" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_right_right" Association="Self.FK_user_right_right">
+      <End Role="right" EntitySet="right" />
+      <End Role="user_right" EntitySet="user_right" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_right_User" Association="Self.FK_user_right_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="user_right" EntitySet="user_right" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

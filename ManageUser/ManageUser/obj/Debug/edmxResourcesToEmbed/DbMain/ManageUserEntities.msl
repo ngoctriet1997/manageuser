@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ManageUserModelStoreContainer" CdmEntityContainer="ManageUserEntities2">
+    <EntitySetMapping Name="groups">
+      <EntityTypeMapping TypeName="ManageUserModel.group">
+        <MappingFragment StoreEntitySet="group">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="group_name" ColumnName="group_name" />
+          <ScalarProperty Name="Descipt" ColumnName="Descipt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="passwords">
+      <EntityTypeMapping TypeName="ManageUserModel.password">
+        <MappingFragment StoreEntitySet="password">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="password1" ColumnName="password" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="InsertYMD" ColumnName="InsertYMD" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="rights">
+      <EntityTypeMapping TypeName="ManageUserModel.right">
+        <MappingFragment StoreEntitySet="right">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="right_name" ColumnName="right_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="ManageUserModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="ManageUserModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="username" ColumnName="username" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="group_right" TypeName="ManageUserModel.group_right" StoreEntitySet="group_right">
+      <EndProperty Name="group">
+        <ScalarProperty Name="id" ColumnName="group_id" />
+      </EndProperty>
+      <EndProperty Name="right">
+        <ScalarProperty Name="id" ColumnName="right_id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="group_user" TypeName="ManageUserModel.group_user" StoreEntitySet="group_user">
+      <EndProperty Name="group">
+        <ScalarProperty Name="id" ColumnName="id_group" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="id" ColumnName="id_user" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="user_right" TypeName="ManageUserModel.user_right" StoreEntitySet="user_right">
+      <EndProperty Name="right">
+        <ScalarProperty Name="id" ColumnName="right_id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="id" ColumnName="user_id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

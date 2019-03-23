@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ManageUserModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="group">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="group_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Descipt" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="rights" Relationship="Self.group_right" FromRole="group" ToRole="right" />
+    <NavigationProperty Name="Users" Relationship="Self.group_user" FromRole="group" ToRole="User" />
+  </EntityType>
+  <EntityType Name="password">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="status" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+    <Property Name="InsertYMD" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="User" Relationship="Self.FK_password_User" FromRole="password" ToRole="User" />
+  </EntityType>
+  <EntityType Name="right">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="right_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="groups" Relationship="Self.group_right" FromRole="right" ToRole="group" />
+    <NavigationProperty Name="Users" Relationship="Self.user_right" FromRole="right" ToRole="User" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="passwords" Relationship="Self.FK_password_User" FromRole="User" ToRole="password" />
+    <NavigationProperty Name="groups" Relationship="Self.group_user" FromRole="User" ToRole="group" />
+    <NavigationProperty Name="rights" Relationship="Self.user_right" FromRole="User" ToRole="right" />
+  </EntityType>
+  <Association Name="FK_password_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="password" Type="Self.password" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="password">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="group_right">
+    <End Role="group" Type="Self.group" Multiplicity="*" />
+    <End Role="right" Type="Self.right" Multiplicity="*" />
+  </Association>
+  <Association Name="group_user">
+    <End Role="group" Type="Self.group" Multiplicity="*" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+  </Association>
+  <Association Name="user_right">
+    <End Role="right" Type="Self.right" Multiplicity="*" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="ManageUserEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="groups" EntityType="Self.group" />
+    <EntitySet Name="passwords" EntityType="Self.password" />
+    <EntitySet Name="rights" EntityType="Self.right" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_password_User" Association="Self.FK_password_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="password" EntitySet="passwords" />
+    </AssociationSet>
+    <AssociationSet Name="group_right" Association="Self.group_right">
+      <End Role="group" EntitySet="groups" />
+      <End Role="right" EntitySet="rights" />
+    </AssociationSet>
+    <AssociationSet Name="group_user" Association="Self.group_user">
+      <End Role="group" EntitySet="groups" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="user_right" Association="Self.user_right">
+      <End Role="right" EntitySet="rights" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
